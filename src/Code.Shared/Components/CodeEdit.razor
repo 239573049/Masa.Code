@@ -1,0 +1,44 @@
+﻿@using Code.Shared.Model
+@namespace Code.Shared
+
+<div style="width: 260px;float: left;">
+    <MExpansionPanels Class="mb-6">
+        <MExpansionPanel accordion>
+            <MExpansionPanelHeader ExpandIcon="mdi-menu-down">
+                文件管理器
+            </MExpansionPanelHeader>
+            <MExpansionPanelContent Style="overflow: auto;height: 700px;">
+                <FileTree></FileTree>
+            </MExpansionPanelContent>
+        </MExpansionPanel>
+    </MExpansionPanels>
+</div>
+<div style="float: left;width: 80%;height: 100%;">
+    <MCard>
+        <MTabs
+            @bind-Value="@selectTabModel"
+            BackgroundColor="primary"
+            Dark>
+            @for (int i = 0; i < Tabs.Count; i++)
+            {
+                <MTab Value="@i">
+                    @Tabs[i].Name
+                </MTab>
+            }
+        </MTabs>
+
+        <MTabsItems Value="selectTabModel">
+            @foreach (var tab in Tabs)
+            {
+                @if (tab.Type == TabType.Edit)
+                {
+                    <MonacoEdit Parameters="@tab.Parameters" Path="@tab.Parameters[nameof(Path)].ToString()"></MonacoEdit>
+                }
+                else
+                {
+                    <DynamicComponent Parameters="@tab.Parameters"></DynamicComponent>
+                }
+            }
+        </MTabsItems>
+    </MCard>
+</div>

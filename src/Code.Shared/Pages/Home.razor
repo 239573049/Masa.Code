@@ -1,0 +1,39 @@
+﻿@page "/"
+
+<div style="height: 100%">
+    <MCard Class="tools">
+        @foreach (var item in _toolsModels)
+        {
+            <MTooltip Right>
+                <ActivatorContent>
+                    <MButton
+                        Text
+                        Height="@("50px")"
+                        OnClick="() => {if (Component != item.Component) Component = item.Component; }"
+                        Small>
+                        <MIcon>
+                            @item.Icon
+                        </MIcon>
+                    </MButton>
+                </ActivatorContent>
+                <ChildContent>
+                    <span>@item.Description</span>
+                </ChildContent>
+            </MTooltip>
+        }
+    </MCard>
+    <div style="float: left;width: calc(100% - 50px);height: 100%;">
+        <DynamicComponent Type="Component"></DynamicComponent>
+    </div>
+</div>
+
+
+<style>
+    .tools{
+        height: 100%;
+        max-height: 100%;
+        width: 50px;
+        background-color: aliceblue;
+        float: left;
+    }
+</style>

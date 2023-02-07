@@ -1,0 +1,27 @@
+﻿@using Code.Shared.Model
+@namespace Code.Shared
+
+<MTreeview
+    @bind-Open="@initiallyOpen"
+    Items="Files"
+    Activatable
+    ItemKey="u => u.Name"
+    ItemChildren="u => u.Children"
+    ItemText="u => u.Name"
+    LoadChildren="FetchUsers"
+    OpenOnClick>
+    <PrependContent>
+        @if (context.Item?.File == false)
+        {
+            <MIcon>
+                @(context.Open ? "mdi-folder-open" : "mdi-folder")
+            </MIcon>
+        }
+        else
+        {
+            <MIcon XSmall Style="font-size: 12px" OnClick="() => KeyLoadEventBus.PushAsync(Constant.AddTab, new TabModel())">
+                @context.Item?.Icon
+            </MIcon>
+        }
+    </PrependContent>
+</MTreeview>

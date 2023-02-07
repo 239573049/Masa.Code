@@ -1,0 +1,7 @@
+﻿@namespace Code.Shared
+
+<SMonacoEditor @ref="SMonacoEditor"
+               Height="@("100%")"
+               InitMonacoHandler="async () => await MonacoAsync()"
+               MonacoRegisterCompletionItemOptions="RegisterCompletionItemProvider()">
+</SMonacoEditor>
