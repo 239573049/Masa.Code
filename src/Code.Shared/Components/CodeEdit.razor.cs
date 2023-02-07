@@ -26,12 +26,21 @@ public partial class CodeEdit
         {
             if (value is not TabModel model) return;
 
-            if (Tabs.All(x => x.Key != model.Key))
+            if (model.Name.EndsWith(".png"))
             {
+                model.Type = TabType.Component;
+                model.Data = typeof(LoadImage); // 使用LoadImage组件加载图片
                 Tabs.Add(model);
                 selectTabModel = model.Key;
-                _ = InvokeAsync(StateHasChanged);
             }
+            else if (Tabs.All(x => x.Key != model.Key))
+            {
+                model.Type = TabType.Edit;
+                Tabs.Add(model);
+                selectTabModel = model.Key;
+            }
+
+            _ = InvokeAsync(StateHasChanged);
         });
         await base.OnInitializedAsync();
     }

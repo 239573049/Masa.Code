@@ -29,19 +29,25 @@ public class FileTrreUtility
         }
         else if (Directory.Exists(path))
         {
-            tree.AddRange(Directory.GetFiles(path).Select(x =>
-            {
-                var file = new FileInfo(x);
-                var icon = Icons.FirstOrDefault(x => file.Name.EndsWith(x.Key)).Value ?? "mdi-file-code";
-                
-                return new FileTreeModel(file.Name, file.FullName, icon, true);
-            }));
-
             tree.AddRange(Directory.GetDirectories(path).Select(x =>
             {
                 var file = new DirectoryInfo(x);
                 return new FileTreeModel(file.Name, file.FullName, false);
             }));
+            
+            tree.AddRange(Directory.GetFiles(path).Select(x =>
+            {
+                var file = new FileInfo(x);
+                var icon = Icons.FirstOrDefault(x => file.Name.EndsWith(x.Key)).Value ?? "mdi-file-code";
+                
+                if (file.Name.EndsWith(".png"))
+                {
+                    
+                }
+                
+                return new FileTreeModel(file.Name, file.FullName, icon, true);
+            }));
+            
         }
 
         return tree;

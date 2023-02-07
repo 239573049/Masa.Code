@@ -43,10 +43,10 @@
                     @switch (t.Type)
                     {
                         case TabType.Edit:
-                            <MonacoEdit Parameters="@t?.Parameters" Path="@t.Data.ToString()"></MonacoEdit>
+                            <MonacoEdit Parameters="@t?.Parameters" Path="@t.Parameters["Path"].ToString()"></MonacoEdit>
                             break;
                         case TabType.Component:
-                            <DynamicComponent Parameters="@t.Parameters"></DynamicComponent>
+                            <DynamicComponent Type="@(t.Data as Type)" Parameters="@t.Parameters"></DynamicComponent>
                             break;
                         default:
                             <div>首页</div>

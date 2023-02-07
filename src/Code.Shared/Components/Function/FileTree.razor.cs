@@ -27,7 +27,8 @@ public partial class FileTree
     private async Task OpenFile(FileTreeModel? fileTreeModel)
     {
         await KeyLoadEventBus.PushAsync(Constant.AddTab,
-            new TabModel(fileTreeModel.Path, fileTreeModel.Name, TabType.Edit, fileTreeModel.Path));
+            new TabModel(fileTreeModel.Path, fileTreeModel.Name, TabType.Edit, null,
+                new Dictionary<string, object> { { "Path", fileTreeModel.Path } }));
     }
 
     private async Task FetchUsers(FileTreeModel item)

@@ -1,4 +1,5 @@
-﻿using Semi.Design.Blazor.Monaco.Editor;
+﻿using Code.Shared.JsInterop;
+using Semi.Design.Blazor.Monaco.Editor;
 using Token.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,8 @@ public static class CodeSharedExtension
         services.AddSemiDesignMonaco();
         services.AddMasaBlazor();
         services.AddEventBus();
-        
+        services.AddScoped<HelperJsInterop>();
+
         return services;
     }
 }

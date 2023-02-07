@@ -11,6 +11,10 @@ public class ConfigUtility
 
     public static async Task<CodeSettingModel?> GetCodeSettingAsync()
     {
+        if (!File.Exists(ConfigPath))
+        {
+            return new CodeSettingModel();
+        }
         return codeSettingModel ??= JsonSerializer.Deserialize<CodeSettingModel>(await File.ReadAllTextAsync(ConfigPath));
     }
 

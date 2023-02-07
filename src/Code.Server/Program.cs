@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Code.Shared.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddCodeShared();
+var language = builder.Configuration.GetSection(nameof(LanguageOptions));
+
+builder.Services.AddSingleton(language.Get<LanguageOptions[]>());
 
 var app = builder.Build();
 
