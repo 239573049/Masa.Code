@@ -7,37 +7,52 @@
             <MExpansionPanelHeader ExpandIcon="mdi-menu-down">
                 文件管理器
             </MExpansionPanelHeader>
-            <MExpansionPanelContent Style="overflow: auto;height: 700px;">
+            <MExpansionPanelContent Style="overflow: auto;height: 600px;">
                 <FileTree></FileTree>
+            </MExpansionPanelContent>
+        </MExpansionPanel>
+        <MExpansionPanel accordion>
+            <MExpansionPanelHeader ExpandIcon="mdi-menu-down">
+                关于
+            </MExpansionPanelHeader>
+            <MExpansionPanelContent>
+                <RegardingOur></RegardingOur>
             </MExpansionPanelContent>
         </MExpansionPanel>
     </MExpansionPanels>
 </div>
 <div style="float: left;width: 80%;height: 100%;">
-    <MCard>
+    <MCard Style="height: 93%;">
         <MTabs
             @bind-Value="@selectTabModel"
             BackgroundColor="primary"
+            CenterActive 
             Dark>
-            @for (int i = 0; i < Tabs.Count; i++)
+            @foreach (var t in Tabs)
             {
-                <MTab Value="@i">
-                    @Tabs[i].Name
+                <MTab Value="@t.Key">
+                    @t.Name
+                    <MIcon Small OnClick="async () =>await CloseFile(t)">mdi-close</MIcon>
                 </MTab>
             }
         </MTabs>
-
-        <MTabsItems Value="selectTabModel">
-            @foreach (var tab in Tabs)
+        <MTabsItems @bind-Value="selectTabModel" Style="height: 100%;">
+            @foreach (var t in Tabs)
             {
-                @if (tab.Type == TabType.Edit)
-                {
-                    <MonacoEdit Parameters="@tab.Parameters" Path="@tab.Parameters[nameof(Path)].ToString()"></MonacoEdit>
-                }
-                else
-                {
-                    <DynamicComponent Parameters="@tab.Parameters"></DynamicComponent>
-                }
+                <MTabItem Value="t.Key" Style="height: 100%;">
+                    @switch (t.Type)
+                    {
+                        case TabType.Edit:
+                            <MonacoEdit Parameters="@t?.Parameters" Path="@t.Data.ToString()"></MonacoEdit>
+                            break;
+                        case TabType.Component:
+                            <DynamicComponent Parameters="@t.Parameters"></DynamicComponent>
+                            break;
+                        default:
+                            <div>首页</div>
+                            break;
+                    }
+                </MTabItem>
             }
         </MTabsItems>
     </MCard>

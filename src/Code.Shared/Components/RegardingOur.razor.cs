@@ -11,6 +11,8 @@ public partial class RegardingOur
 
     #endregion
 
+    private const string GitHub = "https://github.com/239573049/Masa.Code";
+    
     private async Task GoHref(string href)
     {
         await JsRuntime.InvokeVoidAsync("window.open",href,"_blank");

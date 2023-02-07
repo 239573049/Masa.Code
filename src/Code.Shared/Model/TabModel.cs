@@ -17,10 +17,20 @@ public class TabModel
     /// <summary>
     /// 数据
     /// </summary>
-    public object Data { get; set; }
+    public object? Data { get; set; }
 
     /// <summary>
-    /// 参数 （Edit会携带“Path”，文件的地址 ）
+    /// 
     /// </summary>
     public IDictionary<string, object>? Parameters { get; set; }
+
+    public TabModel(string key, string name, TabType type, object data = null,
+        IDictionary<string, object>? parameters = null)
+    {
+        Key = key;
+        Name = name;
+        Type = type;
+        Data = data;
+        Parameters = parameters ?? new Dictionary<string, object>();
+    }
 }

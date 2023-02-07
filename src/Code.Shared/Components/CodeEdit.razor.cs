@@ -13,19 +13,33 @@ public partial class CodeEdit
 
     #endregion
 
-    private static List<TabModel> Tabs = new();
+    private List<TabModel> Tabs = new()
+    {
+        new TabModel(Guid.NewGuid().ToString("N"), "首页", TabType.None)
+    };
 
-    public StringNumber selectTabModel { get; set; }
+    private StringNumber selectTabModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        KeyLoadEventBus.Subscription(Constant.AddTab, (value) =>
+        KeyLoadEventBus.Subscription(Constant.AddTab, async (value) =>
         {
             if (value is not TabModel model) return;
 
-            Tabs.Add(model);
-            selectTabModel = Tabs.IndexOf(model);
+            if (Tabs.All(x => x.Key != model.Key))
+            {
+                Tabs.Add(model);
+                selectTabModel = model.Key;
+                _ = InvokeAsync(StateHasChanged);
+            }
         });
         await base.OnInitializedAsync();
+    }
+
+    private async Task CloseFile(TabModel model)
+    {
+        selectTabModel = Tabs.FirstOrDefault()?.Key;
+        Tabs.Remove(model);
+        _ = InvokeAsync(StateHasChanged);
     }
 }

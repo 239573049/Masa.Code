@@ -4,8 +4,10 @@
 <MTreeview
     @bind-Open="@initiallyOpen"
     Items="Files"
+    Dense
+    Hoverable
     Activatable
-    ItemKey="u => u.Name"
+    ItemKey="u => u.Path"
     ItemChildren="u => u.Children"
     ItemText="u => u.Name"
     LoadChildren="FetchUsers"
@@ -19,7 +21,7 @@
         }
         else
         {
-            <MIcon XSmall Style="font-size: 12px" OnClick="() => KeyLoadEventBus.PushAsync(Constant.AddTab, new TabModel())">
+            <MIcon XSmall Style="font-size: 12px" OnClick="async () => await OpenFile(context.Item)">
                 @context.Item?.Icon
             </MIcon>
         }

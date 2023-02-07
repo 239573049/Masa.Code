@@ -16,6 +16,23 @@ public partial class MonacoEdit
     
     public SMonacoEditor SMonacoEditor { get; private set; }
 
+    private async Task<string> ReadCode()
+    {
+        if (File.Exists(Path))
+        {
+            try
+            {
+                return await File.ReadAllTextAsync(Path);
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        return string.Empty;
+    }
+
     private static MonacoRegisterCompletionItemOptions[] RegisterCompletionItemProvider()
     {
         var trigger = new[]
@@ -43,7 +60,7 @@ public partial class MonacoEdit
             return new
             {
                 language = "razor",
-                value = "",
+                value = await ReadCode(),
                 automaticLayout = true, // 跟随父容器大小
                 theme = "vs-dark"
             };

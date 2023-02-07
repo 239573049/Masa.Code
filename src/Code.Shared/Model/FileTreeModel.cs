@@ -9,7 +9,9 @@ public class FileTreeModel
     public string Path { get; set; }
 
     public bool File { get; set; }
-    
+
+    public FileTreeModel This => this;
+
     public List<FileTreeModel> Children { get; set; }
 
     public FileTreeModel(string name,string path,bool file)

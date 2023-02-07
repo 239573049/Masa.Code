@@ -24,7 +24,13 @@ public partial class FileTree
         await base.OnInitializedAsync();
     }
 
-    public async Task FetchUsers(FileTreeModel item)
+    private async Task OpenFile(FileTreeModel? fileTreeModel)
+    {
+        await KeyLoadEventBus.PushAsync(Constant.AddTab,
+            new TabModel(fileTreeModel.Path, fileTreeModel.Name, TabType.Edit, fileTreeModel.Path));
+    }
+
+    private async Task FetchUsers(FileTreeModel item)
     {
         item.Children.Clear();
         item.Children.AddRange(FileTrreUtility.GetFileTree(item.Path));
