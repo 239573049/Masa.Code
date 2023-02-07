@@ -9,9 +9,6 @@ namespace Code.Shared;
 public partial class MonacoEdit
 {
     #region Inject
-
-    [Inject]
-    public HelperJsInterop HelperJsInterop { get; set; }
     
     [Inject] public LanguageOptions[] LanguageOptions { get; set; }
 
@@ -27,8 +24,6 @@ public partial class MonacoEdit
 
     public SMonacoEditor SMonacoEditor { get; private set; }
     
-    private DotNetObjectReference<MonacoEdit>? objRef;
-
     private async Task<string> ReadCode()
     {
         if (!File.Exists(Path)) return string.Empty;
@@ -67,13 +62,6 @@ public partial class MonacoEdit
         }
     }
 
-    protected override void OnInitialized()
-    {
-        
-        objRef = DotNetObjectReference.Create(this);
-        base.OnInitialized();
-    }
-    
     private void GetCode()
     {
     }
