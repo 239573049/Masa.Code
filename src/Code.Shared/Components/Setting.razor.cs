@@ -10,7 +10,7 @@ public partial class Setting
         "setting"
     };
 
-    private List<SettingOptions> settingOptions = new List<SettingOptions>();
+    private List<SettingOptions> settingOptions = new();
 
     protected override void OnInitialized()
     {
