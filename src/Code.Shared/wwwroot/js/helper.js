@@ -11,14 +11,12 @@ function revokeUrl(url) {
     (window.URL || window.webkitURL || window || {}).revokeObjectURL(url);
 }
 
-function onKeydown(dotNetHelper){
-    document.onkeydown = async function (e) {
+function onKeydown(id, dotNetHelper) {
+    document.getElementById(id)
+        .onkeydown = async function (e) {
         const keyCode = e.keyCode || e.which || e.charCode;
         const ctrlKey = e.ctrlKey || e.metaKey;
-        const result = await dotNetHelper.invokeMethodAsync("OnKeydown", ctrlKey, keyCode);
-        if (result) {
-            return true;
-        }
+        await dotNetHelper.invokeMethodAsync("OnKeydown",keyCode,ctrlKey);
         e.preventDefault();
         return false;
     }

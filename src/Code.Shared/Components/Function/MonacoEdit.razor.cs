@@ -3,13 +3,14 @@ using Code.Shared.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Semi.Design.Blazor;
+using System.Text;
 
 namespace Code.Shared;
 
-public partial class MonacoEdit
+public partial class MonacoEdit : IAsyncDisposable
 {
     #region Inject
-    
+
     [Inject] public LanguageOptions[] LanguageOptions { get; set; }
 
     #endregion
@@ -20,14 +21,20 @@ public partial class MonacoEdit
     [Parameter]
     public string? Path { get; set; }
 
+    [Parameter]
+    public string Key { get; set; }
+
     [Parameter] public IDictionary<string, object>? Parameters { get; set; }
 
     public SMonacoEditor SMonacoEditor { get; private set; }
-    
+
+    private DotNetObjectReference<MonacoEdit> _reference;
+
+
     private async Task<string> ReadCode()
     {
         if (!File.Exists(Path)) return string.Empty;
-        
+
         try
         {
             return await File.ReadAllTextAsync(Path);
@@ -36,6 +43,34 @@ public partial class MonacoEdit
         {
             return string.Empty;
         }
+    }
+
+    [JSInvokable("OnKeydown")]
+    public async Task<bool> OnKeydown(int code, bool ctrl)
+    {
+        if (code == 83 && ctrl)
+        {
+            // 保存文件内容
+            _ = Task.Run(SaveCode);
+            return await Task.FromResult(false);
+        }
+        return await Task.FromResult(true);
+    }
+
+    protected override void OnInitialized()
+    {
+        _reference = DotNetObjectReference.Create(this);
+        Key ??= Guid.NewGuid().ToString();
+        base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await HelperJsInterop.onKeydown(Key, _reference);
+        }
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     private static MonacoRegisterCompletionItemOptions[] RegisterCompletionItemProvider()
@@ -62,7 +97,28 @@ public partial class MonacoEdit
         }
     }
 
-    private void GetCode()
+    private async Task SaveCode()
     {
+        if (File.Exists(Path))
+        {
+            _ = InvokeAsync(async () =>
+            {
+                await PopupService.ToastInfoAsync("保存中...");
+            });
+            var code = await SMonacoEditor.Module.GetValue(SMonacoEditor.Monaco);
+            using var stream = File.Create(Path);
+            await stream.WriteAsync(Encoding.UTF8.GetBytes(code));
+            await stream.FlushAsync();
+            stream.Close();
+            _ = InvokeAsync(async () =>
+            {
+                await PopupService.ToastSuccessAsync("保存文件成功");
+            });
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await SaveCode();
     }
 }

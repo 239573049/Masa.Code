@@ -1,8 +1,10 @@
 ﻿@namespace Code.Shared
-@inherits CodeComponentBase
 
-<SMonacoEditor @ref="SMonacoEditor"
-               Height="@("100%")"
+@inherits CodeComponentBase
+@inject HelperJsInterop HelperJsInterop
+@inject IPopupService PopupService
+
+<SMonacoEditor @ref="SMonacoEditor" Id="@Key" Height="@("100%")"
                InitMonacoHandler="async () => await MonacoAsync()"
                MonacoRegisterCompletionItemOptions="RegisterCompletionItemProvider()">
 </SMonacoEditor>

@@ -3,6 +3,30 @@
 @inject IKeyLoadEventBus KeyLoadEventBus
 
 <MCard Dark="LayoutOptions.Dark">
-    <MImage Src="https://cdn.masastack.com/stack/images/logo/MASAStack/logo.png" Style="height: 25px;width: 25px;float: left"></MImage>
-    
+    <MImage Src="https://cdn.masastack.com/stack/images/logo/MASAStack/logo.png" Style=" margin-right: 5px;height: 25px;width: 25px;float: left"></MImage>
+    @foreach (var item in _headerOptions)
+    {
+        <MMenu Bottom
+               Origin="center center"
+               Transition="scale-transition" @key="@item.Key">
+            <ActivatorContent>
+                <MButton Small Text @attributes="@context.Attrs">
+                    @item.Title
+                </MButton>
+            </ActivatorContent>
+            <ChildContent>
+                <MList>
+                    @if (item.Children != null)
+                    {
+                        @foreach (var i in item.Children)
+                        {
+                            <MButton Small Text OnClick="() => i.OnClick?.Invoke(i)">
+                                @i.Title
+                            </MButton>
+                        }
+                    }
+                </MList>
+            </ChildContent>
+        </MMenu>
+    }
 </MCard>

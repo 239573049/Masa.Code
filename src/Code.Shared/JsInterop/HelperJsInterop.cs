@@ -18,10 +18,10 @@ public class HelperJsInterop : IAsyncDisposable
         return await module.InvokeAsync<string>("byteToUrl", bytes);
     }
 
-    public async ValueTask onKeydown<T>(DotNetObjectReference<T> objRef)where T : class
+    public async ValueTask onKeydown<T>(string id,DotNetObjectReference<T> objRef)where T : class
     {
         var module = await moduleTask.Value;
-        await module.InvokeVoidAsync("onKeydown", objRef);
+        await module.InvokeVoidAsync("onKeydown", id, objRef);
     }
 
     public async ValueTask<string> RevokeUrl(string url)

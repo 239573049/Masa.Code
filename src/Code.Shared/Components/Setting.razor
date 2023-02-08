@@ -3,20 +3,22 @@
 @inherits CodeComponentBase
 
 <div class="setting">
-    <MExpansionPanels Dark="LayoutOptions.Dark"  Class="mb-6">
-        <MExpansionPanel  accordion>
-            <MExpansionPanelHeader  ExpandIcon="mdi-menu-down">
-                编辑器设置
-            </MExpansionPanelHeader>
-            <MExpansionPanelContent>
-                <EditorSetting></EditorSetting>
-            </MExpansionPanelContent>
-        </MExpansionPanel>
-    </MExpansionPanels>
+    @foreach (var setting in settingOptions)
+    {
+        <MExpansionPanels @bind-Values="Panel" Dark="LayoutOptions.Dark" Class="mb-6">
+            <MExpansionPanel Value="@setting.Code">
+                <MExpansionPanelHeader ExpandIcon="mdi-menu-down">
+                    @setting.Title
+                </MExpansionPanelHeader>
+                <MExpansionPanelContent>
+                    <DynamicComponent Type="setting.Component"></DynamicComponent>
+                </MExpansionPanelContent>
+            </MExpansionPanel>
+        </MExpansionPanels>
+    }
 </div>
 
 <style>
-.setting{
-    
-}
+    .setting {
+    }
 </style>
