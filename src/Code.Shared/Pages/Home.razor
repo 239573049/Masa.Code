@@ -1,32 +1,39 @@
 ﻿@page "/"
+@using Token.Events
+@inject IKeyLoadEventBus KeyLoadEventBus
 
-<div style="height: 100%">
-    <MCard Class="tools">
-        @foreach (var item in _toolsModels)
-        {
-            <MTooltip Right>
-                <ActivatorContent>
-                    <MButton
-                        Text
-                        Height="@("50px")"
-                        OnClick="() => {if (Component != item.Component) Component = item.Component; }"
-                        Small>
-                        <MIcon>
-                            @item.Icon
-                        </MIcon>
-                    </MButton>
-                </ActivatorContent>
-                <ChildContent>
-                    <span>@item.Description</span>
-                </ChildContent>
-            </MTooltip>
-        }
-    </MCard>
-    <div style="float: left;width: calc(100% - 50px);height: 100%;">
-        <DynamicComponent Type="Component"></DynamicComponent>
+<CascadingValue Value="LayoutOptions" Name="@nameof(LayoutOptions)">
+    <div class="header">
+        <Header></Header>
     </div>
-</div>
-
+    <div style="height: 100%">
+        <MCard Dark="LayoutOptions.Dark" Class="tools">
+            @foreach (var item in _toolsModels)
+            {
+                <MTooltip
+                    Right>
+                    <ActivatorContent>
+                        <MButton
+                            Text
+                            Height="@("50px")"
+                            OnClick="() => {if (Component != item.Component) Component = item.Component; }"
+                            Small>
+                            <MIcon>
+                                @item.Icon
+                            </MIcon>
+                        </MButton>
+                    </ActivatorContent>
+                    <ChildContent>
+                        <span>@item.Description</span>
+                    </ChildContent>
+                </MTooltip>
+            }
+        </MCard>
+        <div style="float: left;width: calc(100% - 50px);height: 100%;">
+            <DynamicComponent Type="Component"></DynamicComponent>
+        </div>
+    </div>
+</CascadingValue>
 
 <style>
     .tools{
@@ -35,5 +42,9 @@
         width: 50px;
         background-color: aliceblue;
         float: left;
+    }
+    .header{
+        height: 25px;
+        width: 100%;
     }
 </style>

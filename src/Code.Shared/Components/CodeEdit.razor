@@ -1,16 +1,17 @@
 ﻿@using Code.Shared.Model
 @namespace Code.Shared
+@inherits CodeComponentBase
 
 <div style="width: 260px;float: left;">
-    <MExpansionPanels Class="mb-6">
-        <MExpansionPanel accordion>
-            <MExpansionPanelHeader ExpandIcon="mdi-menu-down">
+    <MExpansionPanels Dark="LayoutOptions.Dark" Class="mb-6">
+        <MExpansionPanel  accordion>
+            <MExpansionPanelHeader  ExpandIcon="mdi-menu-down">
                 文件管理器
             </MExpansionPanelHeader>
-            <MExpansionPanelContent Style="overflow: auto;height: 600px;">
+            <MExpansionPanelContent  Style="overflow: auto;height: 600px;">
                 <FileTree></FileTree>
             </MExpansionPanelContent>
-        </MExpansionPanel>
+        </MExpansionPanel >
         <MExpansionPanel accordion>
             <MExpansionPanelHeader ExpandIcon="mdi-menu-down">
                 关于
@@ -21,25 +22,26 @@
         </MExpansionPanel>
     </MExpansionPanels>
 </div>
-<div style="float: left;width: 80%;height: 100%;">
-    <MCard Style="height: 93%;">
+<div class="tab">
+    <MCard Dark="LayoutOptions.Dark" Style="height: 93%;">
         <MTabs
+            Dark="LayoutOptions.Dark"
             @bind-Value="@selectTabModel"
             BackgroundColor="primary"
-            CenterActive 
-            Dark>
+            CenterActive>
             @foreach (var t in Tabs)
             {
                 <MTab Value="@t.Key">
                     @t.Name
-                    <MIcon Small OnClick="async () =>await CloseFile(t)">mdi-close</MIcon>
+                    <MIcon Dark="LayoutOptions.Dark" Small OnClick="async () =>await CloseFile(t)">mdi-close</MIcon>
                 </MTab>
             }
         </MTabs>
         <MTabsItems @bind-Value="selectTabModel" Style="height: 100%;">
             @foreach (var t in Tabs)
             {
-                <MTabItem Value="t.Key" Style="height: 100%;">
+                <MTabItem
+                    Value="t.Key" Style="height: 100%;">
                     @switch (t.Type)
                     {
                         case TabType.Edit:
@@ -57,3 +59,12 @@
         </MTabsItems>
     </MCard>
 </div>
+
+<style>
+.tab{
+    float: left;
+    width: calc(100% - 260px);
+    height: 100%;
+}
+
+</style>
