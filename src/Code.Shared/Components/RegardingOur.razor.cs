@@ -15,6 +15,7 @@ public partial class RegardingOur
     
     private async Task GoHref(string href)
     {
+        Console.WriteLine();
         await JsRuntime.InvokeVoidAsync("window.open",href,"_blank");
     }
 }

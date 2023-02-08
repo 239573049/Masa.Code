@@ -20,6 +20,7 @@ public partial class EditorSetting
     private async void HandleOnValidSubmit()
     {
         await ConfigUtility.SaveCodeSettingAsync(_model);
+        await KeyLoadEventBus.PushAsync(Constant.Dark, _model.Dark);
     }
 
     private void HandleOnInvalidSubmit()

@@ -1,10 +1,12 @@
 ﻿@using Code.Shared.Model
 @namespace Code.Shared
+@inherits CodeComponentBase
 
 <MTreeview
     @bind-Open="@initiallyOpen"
     Items="Files"
     Dense
+    Dark="LayoutOptions.Dark"
     Hoverable
     Activatable
     ItemKey="u => u.Path"

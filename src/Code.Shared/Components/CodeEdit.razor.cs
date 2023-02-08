@@ -20,6 +20,8 @@ public partial class CodeEdit
 
     private StringNumber selectTabModel { get; set; }
 
+    private string? functionWidth = "260px";
+    
     protected override async Task OnInitializedAsync()
     {
         KeyLoadEventBus.Subscription(Constant.AddTab, async (value) =>
