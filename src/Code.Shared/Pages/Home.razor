@@ -16,7 +16,7 @@
                         <MButton
                             Text
                             Height="@("50px")"
-                            OnClick="() => {if (Component != item.Component) Component = item.Component; }"
+                            OnClick="() => {if (Key != item.Key) Key = item.Key; }"
                             Small>
                             <MIcon>
                                 @item.Icon
@@ -29,9 +29,12 @@
                 </MTooltip>
             }
         </MCard>
-        <div style="float: left;width: calc(100% - 50px);height: 100%;">
-            <DynamicComponent Type="Component"></DynamicComponent>
-        </div>
+        @foreach (var item in _toolsModels)
+        {
+            <div style="float: left;width: calc(100% - 50px);height: 100%;@(item.Key != Key?"display: none":string.Empty)">
+                <DynamicComponent Type="item.Component"></DynamicComponent>
+            </div>
+        }
     </div>
 </CascadingValue>
 

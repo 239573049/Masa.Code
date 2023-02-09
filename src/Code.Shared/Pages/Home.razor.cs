@@ -6,7 +6,10 @@ namespace Code.Shared.Pages;
 
 public partial class Home
 {
-    private Type Component = typeof(CodeEdit);
+    /// <summary>
+    /// 当前渲染组件Key
+    /// </summary>
+    private string Key;
 
     public LayoutOptions LayoutOptions { get; set; } = new();
 
@@ -18,6 +21,7 @@ public partial class Home
 
     protected override async Task OnInitializedAsync()
     {
+        Key = _toolsModels.FirstOrDefault()?.Key;
         var model = await ConfigUtility.GetCodeSettingAsync();
         LayoutOptions.Dark = model.Dark;
         KeyLoadEventBus.Subscription(Constant.Dark, (value) =>
