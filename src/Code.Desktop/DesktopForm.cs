@@ -23,7 +23,7 @@ public partial class DesktopForm : Form
         blazorWeb.HostPage = "wwwroot\\index.html";
         blazorWeb.Services = services.BuildServiceProvider();
         blazorWeb.RootComponents.Add<Main>("#app");
-        blazorWeb.BlazorWebViewInitialized += async (sender, args) =>
+        blazorWeb.BlazorWebViewInitialized += (_, _) =>
         {
             var eventForwarder = new EventForwarder(this.Handle);
 

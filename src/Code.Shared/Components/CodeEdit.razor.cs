@@ -1,4 +1,5 @@
 ﻿using BlazorComponent;
+using Code.Shared.EventBus;
 using Code.Shared.Model;
 using Microsoft.AspNetCore.Components;
 using Token.Events;
@@ -25,7 +26,7 @@ public partial class CodeEdit
     private string? functionWidth = "260px";
     protected override async Task OnInitializedAsync()
     {
-        KeyLoadEventBus.Subscription(Constant.AddTab, async (value) =>
+        KeyLoadEventBus.Subscription(Constant.AddTab, value =>
         {
             if (value is not TabModel model) return;
 
@@ -33,16 +34,21 @@ public partial class CodeEdit
             {
                 model.Type = TabType.Component;
                 model.Data = typeof(LoadImage); // 使用LoadImage组件加载图片
-                Tabs.Add(model);
-                selectTabModel = model.Key;
             }
             else if (Tabs.All(x => x.Key != model.Key))
             {
                 model.Type = TabType.Edit;
-                Tabs.Add(model);
-                selectTabModel = model.Key;
             }
 
+            // 当model被事件处理使用事件model
+            var loadModel = CodeEventBus.LoadTabModelHandle?.Invoke(model);
+            if (loadModel != null)
+            {
+                model = loadModel;
+            }
+            Tabs.Add(model);
+
+            selectTabModel = model.Key;
             _ = InvokeAsync(StateHasChanged);
         });
         await base.OnInitializedAsync();

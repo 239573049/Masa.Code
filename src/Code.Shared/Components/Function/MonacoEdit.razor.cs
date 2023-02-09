@@ -1,9 +1,10 @@
-﻿using Code.Shared.JsInterop;
-using Code.Shared.Options;
+﻿using Code.Core;
+using Code.Shared.JsInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Semi.Design.Blazor;
 using System.Text;
+using BlazorComponent;
 
 namespace Code.Shared;
 
@@ -23,6 +24,12 @@ public partial class MonacoEdit : IAsyncDisposable
 
     [Parameter]
     public string Key { get; set; }
+
+    [Parameter] 
+    public string Height { get; set; } = "100%";
+
+    [Parameter]
+    public string Width { get; set; }
 
     [Parameter] public IDictionary<string, object>? Parameters { get; set; }
 
