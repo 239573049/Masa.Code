@@ -4,7 +4,7 @@
 
 [![Semi Design Blazor](https://img.shields.io/badge/license-MIT-informational)](LICENSE)
 
-轻量级编辑器，使用Blazor渲染UI通过混合开发模式支持各个平台，由[Semi.Design.Blazor.Monaco.Editor](https://github.com/semi-design-blazor/Semi.Design.Blazor.Monaco.Editor)提供编辑高亮和语法提示
+轻量级编辑器，使用Blazor渲染UI通过混合开发模式支持各个平台，由[Semi.Design.Blazor.Monaco.Editor](https://github.com/semi-design-blazor/Semi.Design.Blazor.Monaco.Editor)提供编辑高亮和语法提示,Blazor组件使用[Masa Blazor](https://www.masastack.com/blazor)
 
 ## 使用案例
 
