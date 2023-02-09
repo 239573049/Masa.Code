@@ -5,8 +5,8 @@
 <div style="width:100%;height:100%;">
     <MonacoEdit @bind-Value="@Value" Width="50%" @ref="monacoEdit" Style="float: left;" Path="@Path">
     </MonacoEdit>
-    <div style="width: 50%;float: left;overflow: auto;max-height: 100vh;">
-        <MMarkdownIt  Scope="desc" Source="@Value"  Class="markdown-parser__highlight" />
+    <div style="width: 50%;float: left;">
+        <MMarkdownIt Style="overflow: auto;max-height: 90vh;" Scope="desc" Source="@Value" Class="markdown-parser__highlight" />
     </div>
 </div>
 
@@ -15,7 +15,7 @@
     .markdown-parser__highlight pre {
       overflow: auto;
       background-color: #f0f3f9 !important;
-      color: #1B2559;
+      color: #000000;
       border-radius: 4px;
       padding: 8px;
     }
