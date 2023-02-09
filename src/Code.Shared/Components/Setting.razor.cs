@@ -1,5 +1,4 @@
 ﻿using BlazorComponent;
-using Code.Shared.Options;
 
 namespace Code.Shared;
 

@@ -1,6 +1,4 @@
-﻿using Code.Shared.Options;
-
-namespace Code.Shared;
+﻿namespace Code.Shared;
 
 public partial class Header
 {

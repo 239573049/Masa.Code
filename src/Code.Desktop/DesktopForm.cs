@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.CodeDom.Compiler;
-using Microsoft.Web.WebView2.Core;
 
 namespace Code.Desktop;
 
@@ -17,7 +16,7 @@ public partial class DesktopForm : Form
                 .AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.json"))
                 .Build();
         var language = configuration.GetSection(nameof(LanguageOptions));
-        services.AddSingleton(language.Get<Code.Shared.Options.LanguageOptions[]>());
+        services.AddSingleton(language.Get<Code.Core.LanguageOptions[]>());
         services.AddWindowsFormsBlazorWebView();
         services.AddCodeShared();
         blazorWeb.HostPage = "wwwroot\\index.html";

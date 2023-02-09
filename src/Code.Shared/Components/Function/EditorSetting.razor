@@ -9,11 +9,6 @@
     <MTextField Dark="LayoutOptions.Dark" @bind-Value="_model.Path"
                 Label="项目路径">
     </MTextField>
-        <MSwitch
-            @bind-Value="@_model.Dark"
-            TrueValue="1"
-            FalseValue="0"
-            Label="@(_model.Dark?"黑暗 ":"光明")">
-        </MSwitch>
+    <MSwitch @bind-Value="@_model.Dark" LeftText="黑暗" RightText="光明" Color="black" TrackColor="#E5E6EB"></MSwitch>
     <MButton Dark="LayoutOptions.Dark" Type="submit">保存</MButton>
 </MForm>

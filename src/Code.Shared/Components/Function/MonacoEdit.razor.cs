@@ -1,10 +1,8 @@
-﻿using Code.Core;
-using Code.Shared.JsInterop;
+﻿using Code.Shared.JsInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Semi.Design.Blazor;
 using System.Text;
-using BlazorComponent;
 
 namespace Code.Shared;
 
@@ -25,7 +23,7 @@ public partial class MonacoEdit : IAsyncDisposable
     [Parameter]
     public string Key { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public string Height { get; set; } = "100%";
 
     [Parameter]
@@ -33,22 +31,28 @@ public partial class MonacoEdit : IAsyncDisposable
 
     [Parameter] public IDictionary<string, object>? Parameters { get; set; }
 
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
     public SMonacoEditor SMonacoEditor { get; private set; }
 
     private DotNetObjectReference<MonacoEdit> _reference;
 
 
-    private async Task<string> ReadCode()
+    private async Task ReadCode()
     {
-        if (!File.Exists(Path)) return string.Empty;
+        if (!File.Exists(Path)) return;
 
         try
         {
-            return await File.ReadAllTextAsync(Path);
+            await ValueChanged.InvokeAsync(await File.ReadAllTextAsync(Path));
         }
         catch
         {
-            return string.Empty;
+            await ValueChanged.InvokeAsync(string.Empty);
         }
     }
 
@@ -80,6 +84,7 @@ public partial class MonacoEdit : IAsyncDisposable
         await base.OnAfterRenderAsync(firstRender);
     }
 
+
     private static MonacoRegisterCompletionItemOptions[] RegisterCompletionItemProvider()
     {
         return Array.Empty<MonacoRegisterCompletionItemOptions>();
@@ -87,13 +92,14 @@ public partial class MonacoEdit : IAsyncDisposable
 
     private async Task<object?> MonacoAsync()
     {
+        await ReadCode();
         try
         {
             return new
             {
                 language = LanguageOptions
-                    .FirstOrDefault(x => x.FileSuffix.Any(f => Path.EndsWith(f)))?.Languages ?? "text",
-                value = await ReadCode(),
+                    .FirstOrDefault(x => x.FileSuffix.Any(f => Path?.EndsWith(f) == true))?.Languages ?? "text",
+                value = Value,
                 automaticLayout = true, // 跟随父容器大小
                 theme = "vs-dark"
             };

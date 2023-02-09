@@ -1,6 +1,5 @@
 ﻿using BlazorComponent;
-using Code.Shared.EventBus;
-using Code.Shared.Model;
+using Code.MarkDown;
 using Microsoft.AspNetCore.Components;
 using Token.Events;
 
@@ -34,6 +33,10 @@ public partial class CodeEdit
             {
                 model.Type = TabType.Component;
                 model.Data = typeof(LoadImage); // 使用LoadImage组件加载图片
+            }else if (model.Name.EndsWith(".md"))
+            {
+                model.Type = TabType.Component;
+                model.Data = typeof(MarkDownEdit); // 使用LoadImage组件加载图片
             }
             else if (Tabs.All(x => x.Key != model.Key))
             {

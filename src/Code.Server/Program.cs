@@ -1,4 +1,4 @@
-using Code.Shared.Options;
+using Code.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();

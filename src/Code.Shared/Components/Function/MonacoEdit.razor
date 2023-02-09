@@ -4,9 +4,12 @@
 @inject HelperJsInterop HelperJsInterop
 @inject IPopupService PopupService
 
-<SMonacoEditor @ref="SMonacoEditor" Id="@Key" 
+<SMonacoEditor @ref="SMonacoEditor" 
+               Id="@Key" 
                Height="@Height"
                Width="@Width"
+               Style="@Style"
+               Class="@Class"
                InitMonacoHandler="async () => await MonacoAsync()"
                MonacoRegisterCompletionItemOptions="RegisterCompletionItemProvider()">
 </SMonacoEditor>

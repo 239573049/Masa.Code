@@ -22,8 +22,22 @@ function onKeydown(id, dotNetHelper) {
     }
 }
 
+function onDidBlurEditorText(editor, dotNetHelper, method) {
+    editor.onDidBlurEditorText(async () => {
+        await dotNetHelper.invokeMethodAsync(method)
+    });
+}
+
+function onDidChangeModelContent(editor, dotNetHelper, method) {
+    editor.onDidChangeModelContent(async (e) => {
+        await dotNetHelper.invokeMethodAsync(method,e)
+    });
+}
+
 export  {
     byteToUrl,
     revokeUrl,
-    onKeydown
+    onKeydown,
+    onDidBlurEditorText,
+    onDidChangeModelContent
 }

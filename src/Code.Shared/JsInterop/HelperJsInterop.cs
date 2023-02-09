@@ -18,7 +18,7 @@ public class HelperJsInterop : IAsyncDisposable
         return await module.InvokeAsync<string>("byteToUrl", bytes);
     }
 
-    public async ValueTask onKeydown<T>(string id,DotNetObjectReference<T> objRef)where T : class
+    public async ValueTask onKeydown<T>(string id, DotNetObjectReference<T> objRef) where T : class
     {
         var module = await moduleTask.Value;
         await module.InvokeVoidAsync("onKeydown", id, objRef);
@@ -28,6 +28,18 @@ public class HelperJsInterop : IAsyncDisposable
     {
         var module = await moduleTask.Value;
         return await module.InvokeAsync<string>("revokeUrl", url);
+    }
+
+    public async ValueTask onDidBlurEditorText<T>(IJSObjectReference editor, DotNetObjectReference<T> objRef,string method) where T : class
+    {
+        var module = await moduleTask.Value;
+        await module.InvokeVoidAsync("onDidBlurEditorText", editor, objRef, method);
+    }
+    
+    public async ValueTask onDidChangeModelContent<T>(IJSObjectReference editor, DotNetObjectReference<T> objRef, string method) where T : class
+    {
+        var module = await moduleTask.Value;
+        await module.InvokeVoidAsync("onDidChangeModelContent", editor, objRef, method);
     }
 
     public async ValueTask DisposeAsync()
