@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.CodeDom.Compiler;
+using Microsoft.Web.WebView2.Core;
 
 namespace Code.Desktop;
 
@@ -22,5 +23,11 @@ public partial class DesktopForm : Form
         blazorWeb.HostPage = "wwwroot\\index.html";
         blazorWeb.Services = services.BuildServiceProvider();
         blazorWeb.RootComponents.Add<Main>("#app");
+        blazorWeb.BlazorWebViewInitialized += async (sender, args) =>
+        {
+            var eventForwarder = new EventForwarder(this.Handle);
+
+            blazorWeb.WebView.CoreWebView2.AddHostObjectToScript("eventForwarder", eventForwarder);
+        };
     }
 }

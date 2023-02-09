@@ -1,10 +1,10 @@
 ﻿@using Code.Shared.Model
-@using Code.Shared.JsInterop
+
 @namespace Code.Shared
 @inherits CodeComponentBase
 <div style="width: 260px;float: left;">
     <MExpansionPanels Dark="LayoutOptions.Dark" Class="mb-6">
-        <MExpansionPanel  accordion>
+        <MExpansionPanel  >
             <MExpansionPanelHeader  ExpandIcon="mdi-menu-down">
                 文件管理器
             </MExpansionPanelHeader>
@@ -12,7 +12,7 @@
                 <FileTree></FileTree>
             </MExpansionPanelContent>
         </MExpansionPanel >
-        <MExpansionPanel accordion>
+        <MExpansionPanel>
             <MExpansionPanelHeader ExpandIcon="mdi-menu-down">
                 关于
             </MExpansionPanelHeader>

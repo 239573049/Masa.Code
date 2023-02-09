@@ -19,7 +19,6 @@ public static class MauiProgram
         builder.Services.AddMauiBlazorWebView();
         builder.Configuration.AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.json"));
         var language = builder.Configuration.GetSection(nameof(LanguageOptions));
-
         builder.Services.AddSingleton(language.Get<LanguageOptions[]>());
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();

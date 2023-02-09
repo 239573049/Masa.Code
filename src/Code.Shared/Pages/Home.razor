@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using Token.Events
+
 @inject IKeyLoadEventBus KeyLoadEventBus
 
 <CascadingValue Value="LayoutOptions" Name="@nameof(LayoutOptions)">
@@ -16,7 +16,7 @@
                         <MButton
                             Text
                             Height="@("50px")"
-                            OnClick="() => {if (Key != item.Key) Key = item.Key; }"
+                             OnClick="() =>SetExtension(item.Key)"
                             Small>
                             <MIcon>
                                 @item.Icon

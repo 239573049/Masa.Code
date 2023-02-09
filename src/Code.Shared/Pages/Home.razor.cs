@@ -15,8 +15,8 @@ public partial class Home
 
     private static IEnumerable<ToolsModel> _toolsModels = new List<ToolsModel>()
     {
-        new("mdi-file-multiple", typeof(CodeEdit)),
-        new("mdi-cogs", typeof(Setting))
+        new("mdi-file-multiple", typeof(CodeEdit),key:nameof(CodeEdit)),
+        new("mdi-cogs", typeof(Setting),key:nameof(Setting))
     };
 
     protected override async Task OnInitializedAsync()
@@ -31,6 +31,24 @@ public partial class Home
             LayoutOptions.Dark = dark;
             _ = InvokeAsync(StateHasChanged);
         });
+
+        KeyLoadEventBus.Subscription(Constant.SetExtension, (value) =>
+        {
+            if (value is not string key) return;
+
+            SetExtension(key);
+            _ = InvokeAsync(StateHasChanged);
+        });
+
         await base.OnInitializedAsync();
+    }
+
+    private void SetExtension(string key)
+    {
+        if (key == Key)
+        {
+            return;
+        }
+        Key = key;
     }
 }

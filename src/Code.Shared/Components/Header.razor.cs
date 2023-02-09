@@ -21,4 +21,9 @@ public partial class Header
         LayoutOptions.Dark = v;
         await KeyLoadEventBus.PushAsync(Constant.Dark, v);
     }
+
+    private void Close()
+    {
+        Environment.Exit(0);
+    }
 }

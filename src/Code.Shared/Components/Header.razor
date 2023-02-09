@@ -2,7 +2,7 @@
 @inherits CodeComponentBase
 @inject IKeyLoadEventBus KeyLoadEventBus
 
-<MCard Dark="LayoutOptions.Dark">
+<MCard Dark="LayoutOptions.Dark" Class="v-system-bar">
     <MImage Src="https://cdn.masastack.com/stack/images/logo/MASAStack/logo.png" Style=" margin-right: 5px;height: 25px;width: 25px;float: left"></MImage>
     @foreach (var item in _headerOptions)
     {
@@ -29,4 +29,7 @@
             </ChildContent>
         </MMenu>
     }
+    <div style="float: right">
+        <MButton Small Text OnClick="Close">x</MButton>
+    </div>
 </MCard>

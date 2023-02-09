@@ -1,26 +1,30 @@
 ﻿using Code.Shared.Model;
 using Code.Shared.Utility;
-using Microsoft.AspNetCore.Components;
-using Token.Events;
 
 namespace Code.Shared;
 
 public partial class FileTree
 {
-    #region Inject
-
-    [Inject] public IKeyLoadEventBus KeyLoadEventBus { get; set; }
-
-    #endregion
-
-    private static List<FileTreeModel> Files = new();
+    private static List<FileTreeModel> Files;
 
     private List<string> initiallyOpen = new() { "public" };
 
+    private string? Path;
+
     protected override async Task OnInitializedAsync()
     {
-        Files = FileTrreUtility.GetFileTree((await ConfigUtility.GetCodeSettingAsync()).Path);
+        await LoadFileTree();
+        KeyLoadEventBus.Subscription(Constant.LoadFileTree, async (v) =>
+        {
+            await LoadFileTree();
+            _ = InvokeAsync(StateHasChanged);
+        });
+    }
 
+    private async Task LoadFileTree()
+    {
+        Path = (await ConfigUtility.GetCodeSettingAsync())?.Path;
+        Files = FileTrreUtility.GetFileTree(Path);
         await base.OnInitializedAsync();
     }
 
@@ -35,5 +39,10 @@ public partial class FileTree
     {
         item.Children.Clear();
         item.Children.AddRange(FileTrreUtility.GetFileTree(item.Path));
+    }
+
+    private void SetWork()
+    {
+        KeyLoadEventBus.PushAsync(Constant.SetExtension, nameof(Setting));
     }
 }

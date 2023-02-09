@@ -36,7 +36,7 @@ partial class DesktopForm
         blazorWeb.Dock = DockStyle.Fill;
         blazorWeb.Location = new Point(0, 0);
         blazorWeb.Name = "blazorWeb";
-        blazorWeb.Size = new Size(800, 450);
+        blazorWeb.Size = new Size(1006, 705);
         blazorWeb.TabIndex = 0;
         blazorWeb.Text = "blazorWeb";
         // 
@@ -44,10 +44,11 @@ partial class DesktopForm
         // 
         AutoScaleDimensions = new SizeF(7F, 17F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(800, 450);
+        ClientSize = new Size(1006, 705);
+        ControlBox = false;
         Controls.Add(blazorWeb);
         Name = "DesktopForm";
-        Text = "Form1";
+        ShowIcon = false;
         ResumeLayout(false);
     }
 

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Code.Shared.Model;
+﻿using Code.Shared.Model;
 using Code.Shared.Utility;
 using Masa.Blazor;
 
@@ -21,6 +20,7 @@ public partial class EditorSetting
     {
         await ConfigUtility.SaveCodeSettingAsync(_model);
         await KeyLoadEventBus.PushAsync(Constant.Dark, _model.Dark);
+        await KeyLoadEventBus.PushAsync(Constant.LoadFileTree, "");
     }
 
     private void HandleOnInvalidSubmit()

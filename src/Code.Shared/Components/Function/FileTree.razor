@@ -1,31 +1,41 @@
 ﻿@using Code.Shared.Model
+@using Code.Shared.Utility
 @namespace Code.Shared
 @inherits CodeComponentBase
+@inject IKeyLoadEventBus KeyLoadEventBus
 
-<MTreeview
-    @bind-Open="@initiallyOpen"
-    Items="Files"
-    Dense
-    Dark="LayoutOptions.Dark"
-    Hoverable
-    Activatable
-    ItemKey="u => u.Path"
-    ItemChildren="u => u.Children"
-    ItemText="u => u.Name"
-    LoadChildren="FetchUsers"
-    OpenOnClick>
+@if (string.IsNullOrEmpty(Path))
+{
+    <MButton Block OnClick="SetWork">
+        设置工作区
+    </MButton>
+}
+else
+{
+    <MTreeview @bind-Open="@initiallyOpen"
+           Items="Files"
+              Dense
+           Dark="LayoutOptions.Dark"
+              Hoverable
+              Activatable
+           ItemKey="u => u.Path"
+           ItemChildren="u => u.Children"
+           ItemText="u => u.Name"
+           LoadChildren="FetchUsers"
+              OpenOnClick>
     <PrependContent>
         @if (context.Item?.File == false)
-        {
-            <MIcon>
-                @(context.Open ? "mdi-folder-open" : "mdi-folder")
+            {
+                <MIcon>
+                    @(context.Open ? "mdi-folder-open" : "mdi-folder")
+                </MIcon>
+            }
+            else
+            {
+                <MIcon XSmall Style="font-size: 12px" OnClick="async () => await OpenFile(context.Item)">
+            @context.Item?.Icon
             </MIcon>
-        }
-        else
-        {
-            <MIcon XSmall Style="font-size: 12px" OnClick="async () => await OpenFile(context.Item)">
-                @context.Item?.Icon
-            </MIcon>
-        }
-    </PrependContent>
-</MTreeview>
+            }
+        </PrependContent>
+    </MTreeview>
+}
