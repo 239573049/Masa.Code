@@ -6,6 +6,13 @@
 
 轻量级编辑器，使用Blazor渲染UI通过混合开发模式支持各个平台，由[Semi.Design.Blazor.Monaco.Editor](https://github.com/semi-design-blazor/Semi.Design.Blazor.Monaco.Editor)提供编辑高亮和语法提示,Blazor组件使用[Masa Blazor](https://www.masastack.com/blazor)
 
+## 👍
+
+基于Blazor实现的编辑器
+提供语法高亮
+轻量级编辑器
+支持MD虚拟渲染（不会因为文件太大造成卡顿）
+
 ## 使用案例
 ![image](https://user-images.githubusercontent.com/61819790/217853580-b8009f0e-425f-4e99-8e05-b54f652f7ff4.png)
 
