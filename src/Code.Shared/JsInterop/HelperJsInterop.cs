@@ -30,16 +30,31 @@ public class HelperJsInterop : IAsyncDisposable
         return await module.InvokeAsync<string>("revokeUrl", url);
     }
 
-    public async ValueTask onDidBlurEditorText<T>(IJSObjectReference editor, DotNetObjectReference<T> objRef,string method) where T : class
+    public async ValueTask onDidBlurEditorText<T>(IJSObjectReference editor, DotNetObjectReference<T> objRef,
+        string method) where T : class
     {
         var module = await moduleTask.Value;
         await module.InvokeVoidAsync("onDidBlurEditorText", editor, objRef, method);
     }
-    
-    public async ValueTask onDidChangeModelContent<T>(IJSObjectReference editor, DotNetObjectReference<T> objRef, string method) where T : class
+
+    public async ValueTask onDidChangeModelContent<T>(IJSObjectReference editor, DotNetObjectReference<T> objRef,
+        string method) where T : class
     {
         var module = await moduleTask.Value;
         await module.InvokeVoidAsync("onDidChangeModelContent", editor, objRef, method);
+    }
+
+    public async ValueTask onDidScrollChange<T>(IJSObjectReference editor, DotNetObjectReference<T> objRef,
+        string method) where T : class
+    {
+        var module = await moduleTask.Value;
+        await module.InvokeVoidAsync("onDidScrollChange", editor, objRef, method);
+    }
+    
+    public async ValueTask<T> InvokeAsync<T>(string jsName, IJSObjectReference editor, params object[] args)
+    {
+        var module = await moduleTask.Value;
+        return await module.InvokeAsync<T>(jsName, editor, args);
     }
 
     public async ValueTask DisposeAsync()

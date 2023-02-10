@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Semi.Design.Blazor;
 using System.Text;
+using Masa.Blazor.Presets;
 
 namespace Code.Shared;
 
@@ -20,39 +21,32 @@ public partial class MonacoEdit : IAsyncDisposable
     [Parameter]
     public string? Path { get; set; }
 
-    [Parameter]
-    public string Key { get; set; }
+    [Parameter] public string Key { get; set; }
 
-    [Parameter]
-    public string Height { get; set; } = "100%";
+    [Parameter] public string Height { get; set; } = "100%";
 
-    [Parameter]
-    public string Width { get; set; }
+    [Parameter] public string Width { get; set; }
 
     [Parameter] public IDictionary<string, object>? Parameters { get; set; }
 
-    [Parameter]
-    public string Value { get; set; }
-
-    [Parameter]
-    public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
 
     public SMonacoEditor SMonacoEditor { get; private set; }
 
     private DotNetObjectReference<MonacoEdit> _reference;
 
 
-    private async Task ReadCode()
+    private async Task<string> ReadCode()
     {
-        if (!File.Exists(Path)) return;
+        if (!File.Exists(Path)) return string.Empty;
 
         try
         {
-            await ValueChanged.InvokeAsync(await File.ReadAllTextAsync(Path));
+            return await File.ReadAllTextAsync(Path);
         }
         catch
         {
-            await ValueChanged.InvokeAsync(string.Empty);
+            return string.Empty;
         }
     }
 
@@ -65,6 +59,7 @@ public partial class MonacoEdit : IAsyncDisposable
             _ = Task.Run(SaveCode);
             return await Task.FromResult(false);
         }
+
         return await Task.FromResult(true);
     }
 
@@ -81,6 +76,7 @@ public partial class MonacoEdit : IAsyncDisposable
         {
             await HelperJsInterop.onKeydown(Key, _reference);
         }
+
         await base.OnAfterRenderAsync(firstRender);
     }
 
@@ -92,14 +88,15 @@ public partial class MonacoEdit : IAsyncDisposable
 
     private async Task<object?> MonacoAsync()
     {
-        await ReadCode();
+        var code = await ReadCode();
+        await ValueChanged.InvokeAsync(code);
         try
         {
             return new
             {
                 language = LanguageOptions
                     .FirstOrDefault(x => x.FileSuffix.Any(f => Path?.EndsWith(f) == true))?.Languages ?? "text",
-                value = Value,
+                value = code,
                 automaticLayout = true, // 跟随父容器大小
                 theme = "vs-dark"
             };
@@ -114,19 +111,13 @@ public partial class MonacoEdit : IAsyncDisposable
     {
         if (File.Exists(Path))
         {
-            _ = InvokeAsync(async () =>
-            {
-                await PopupService.ToastInfoAsync("保存中...");
-            });
+            _ = InvokeAsync(async () => { await PopupService.ToastInfoAsync("保存中..."); });
             var code = await SMonacoEditor.Module.GetValue(SMonacoEditor.Monaco);
             using var stream = File.Create(Path);
             await stream.WriteAsync(Encoding.UTF8.GetBytes(code));
             await stream.FlushAsync();
             stream.Close();
-            _ = InvokeAsync(async () =>
-            {
-                await PopupService.ToastSuccessAsync("保存文件成功");
-            });
+            _ = InvokeAsync(async () => { await PopupService.ToastSuccessAsync("保存文件成功"); });
         }
     }
 
