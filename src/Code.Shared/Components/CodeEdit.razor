@@ -1,8 +1,7 @@
-﻿@using Code.Shared.Model
+﻿@namespace Code.Shared
 
-@namespace Code.Shared
 @inherits CodeComponentBase
-<div style="width: 260px;float: left;">
+<div style="width: 260px;float: left;" >
     <MExpansionPanels Dark="LayoutOptions.Dark" Class="mb-6">
         <MExpansionPanel  >
             <MExpansionPanelHeader  ExpandIcon="mdi-menu-down">
@@ -45,7 +44,7 @@
                     @switch (t.Type)
                     {
                         case TabType.Edit:
-                            <MonacoEdit Parameters="@t?.Parameters" Path="@t.Parameters["Path"].ToString()"></MonacoEdit>
+                            <MonacoEdit Key="@Guid.NewGuid().ToString("N")" Parameters="@t?.Parameters" Path="@t.Parameters["Path"].ToString()" ></MonacoEdit>
                             break;
                         case TabType.Component:
                             <DynamicComponent Type="@(t.Data as Type)" Parameters="@t.Parameters"></DynamicComponent>

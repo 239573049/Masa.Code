@@ -1,0 +1,71 @@
+﻿@namespace Code.Shared
+@inject IPopupService PopupService  
+
+<div class="@Class" style="@Style">
+    @if (ComponentType != null)
+    {
+        <DynamicComponent Type="@ComponentType"/>
+    }
+    else
+    {
+        <MCard Dark>
+            <MCardText>
+                 <MMarkdownIt Scope="desc" Source="@Intro" Class="markdown-parser__highlight"/>
+            </MCardText>
+        </MCard>
+    }
+</div>
+
+<style>
+    .markdown-parser__highlight pre {
+      overflow: auto;
+      background-color: #f0f3f9 !important;
+      color: #000000;
+      border-radius: 4px;
+      padding: 8px;
+    }
+    
+    .markdown-parser__highlight code {
+      background-color: unset !important;
+    }
+    pre  code {
+        margin: 0;
+        font-size: 85%;
+        padding: 0.5em;
+        border-radius: 5px;
+        display: block;
+        overflow: auto;
+        white-space: pre;
+        font-family: mononoki,Consolas,"Liberation Mono",Menlo,Courier,monospace,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Segoe UI Symbol","Android Emoji","EmojiSymbols";
+        background-size: 20px 20px;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AgMAAABHkjHhAAAACVBMVEWAgIBaWlo+Pj7rTFvWAAAAA3RSTlMHCAw+VhR4AAAA+klEQVQoz4WSMW7EQAhFPxKWNh2FCx+HkaZI6RRb5DYbyVfIJXLKDCFoMbaTKSw/8ZnPAPjaH2xgZcUNUDADD7D9LtDBCLZ45fbkvo/30K8yeI64pPwl6znd/3n/Oe93P3ho9qeh72btTFzqkz0rsJle8Zr81OLEwZ1dv/713uWqvu2pl+k0fy7MWtj9r/tN5q/02z89qa/L4Dc2LvM93kezPfXlME/O86EbY/V9GB9ePX8G1/6W+/9h1dq/HGfTfzT3j/xNo7522Bfnqe5jO/fvhVthlfk434v3iO9zG/UOphyPeinPl1J8Gtaa7xPTa/Dk+RIs4deMvwGvcGsmsCvJ0AAAAABJRU5ErkJggg==);
+        word-break: initial;
+        word-wrap: normal;
+    }
+            
+    .markdown-parser__highlight p {
+      margin-bottom: 0;
+    }
+    table {
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table th {
+        background:#b5cfd2;
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #999999;
+    }
+    table td {
+        background:#dcddc0;
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #999999;
+    }
+</style>

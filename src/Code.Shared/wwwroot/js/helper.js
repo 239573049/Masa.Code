@@ -38,7 +38,6 @@ function onDidBlurEditorText(editor, dotNetHelper, method) {
 function onDidChangeModelContent(editor, dotNetHelper, method) {
     window.mon = editor
     editor.onDidChangeModelContent(async (e) => {
-        console.log('onDidChangeModelContent', e)
         await dotNetHelper.invokeMethodAsync(method, e)
     });
 }

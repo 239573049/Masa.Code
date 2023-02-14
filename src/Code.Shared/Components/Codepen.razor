@@ -1,0 +1,32 @@
+﻿@namespace Code.Shared
+
+<div class="code">
+    <MTabs @bind-Value="selectValue">
+        <MTab Value="@("update")">编辑</MTab>
+        <MTab Value="@("render")" OnClick="Render">渲染</MTab>
+    </MTabs>
+    <MTabsItems @bind-Value="selectValue">
+        <MTabItem Value="@("update")">
+            <MCard Flat Class="render" >
+                <MonacoEdit Language="razor" Path="@string.Empty" @ref="MonacoEdit"></MonacoEdit>
+            </MCard>
+        </MTabItem>
+        <MTabItem Value="@("render")">
+            <MCard Flat>
+                <BlazorRender Code="@Code" Class="render" />
+            </MCard>
+        </MTabItem>
+    </MTabsItems>
+</div>
+
+<style>
+    .code{
+        float: left;
+        width: 100%;
+        height: 100%;
+        max-height: calc(100vh - 25px);
+    }
+    .render{
+        height: calc(100vh - 75px);
+    }
+</style>

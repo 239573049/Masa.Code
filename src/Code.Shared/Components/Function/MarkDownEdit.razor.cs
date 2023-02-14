@@ -45,7 +45,7 @@ public partial class MarkDownEdit
             int end = visible.endLineNumber - visible.startLineNumber + 2;
             // 将数据拆分只显示可见内容的数据渲染
             Html = string.Join(Environment.NewLine,
-                (await monacoEdit.SMonacoEditor.Module.GetValue(monacoEdit.SMonacoEditor.Monaco))
+                (await monacoEdit.SMonacoEditor.GetValue())
                 .Split(Environment.NewLine).Skip(star > 5 ? star - 2 : star).Take(end));
 
             _ = InvokeAsync(StateHasChanged);

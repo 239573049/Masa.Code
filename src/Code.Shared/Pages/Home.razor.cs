@@ -14,6 +14,7 @@ public partial class Home
 
     private static IEnumerable<ToolsModel> _toolsModels = new List<ToolsModel>()
     {
+        new("mdi-codepen", typeof(Codepen),key:nameof(Codepen)),
         new("mdi-file-multiple", typeof(CodeEdit),key:nameof(CodeEdit)),
         new("mdi-cogs", typeof(Setting),key:nameof(Setting))
     };

@@ -21,7 +21,9 @@ public partial class MonacoEdit : IAsyncDisposable
     [Parameter]
     public string? Path { get; set; }
 
-    [Parameter] public string Key { get; set; }
+    [Parameter] public string? Language { get; set; }
+
+    [Parameter] public string? Key { get; set; }
 
     [Parameter] public string Height { get; set; } = "100%";
 
@@ -34,7 +36,6 @@ public partial class MonacoEdit : IAsyncDisposable
     public SMonacoEditor SMonacoEditor { get; private set; }
 
     private DotNetObjectReference<MonacoEdit> _reference;
-
 
     private async Task<string> ReadCode()
     {
@@ -65,8 +66,8 @@ public partial class MonacoEdit : IAsyncDisposable
 
     protected override void OnInitialized()
     {
+        Key ??= Guid.NewGuid().ToString("N");
         _reference = DotNetObjectReference.Create(this);
-        Key ??= Guid.NewGuid().ToString();
         base.OnInitialized();
     }
 
@@ -94,8 +95,10 @@ public partial class MonacoEdit : IAsyncDisposable
         {
             return new
             {
-                language = LanguageOptions
-                    .FirstOrDefault(x => x.FileSuffix.Any(f => Path?.EndsWith(f) == true))?.Languages ?? "text",
+                language = !string.IsNullOrEmpty(Language)
+                    ? Language
+                    : LanguageOptions
+                        .FirstOrDefault(x => x.FileSuffix.Any(f => Path?.EndsWith(f) == true))?.Languages ?? "text",
                 value = code,
                 automaticLayout = true, // 跟随父容器大小
                 theme = "vs-dark"
@@ -112,8 +115,8 @@ public partial class MonacoEdit : IAsyncDisposable
         if (File.Exists(Path))
         {
             _ = InvokeAsync(async () => { await PopupService.ToastInfoAsync("保存中..."); });
-            var code = await SMonacoEditor.Module.GetValue(SMonacoEditor.Monaco);
-            using var stream = File.Create(Path);
+            var code = await SMonacoEditor.GetValue();
+            await using var stream = File.Create(Path);
             await stream.WriteAsync(Encoding.UTF8.GetBytes(code));
             await stream.FlushAsync();
             stream.Close();
